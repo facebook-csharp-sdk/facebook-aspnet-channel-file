@@ -56,23 +56,23 @@ It is important for the channel file to be cached for as long as possible. When 
 ```
 
 ```csharp
-    public class FacebookChannelHandler : IHttpHandler
+public class FacebookChannelHandler : IHttpHandler
+{
+    public void ProcessRequest(HttpContext context)
     {
-        public void ProcessRequest(HttpContext context)
-        {
-            HttpResponse response = context.Response;
-            response.ClearHeaders();
+        HttpResponse response = context.Response;
+        response.ClearHeaders();
 
-            const int cacheExpires = 60 * 60 * 24 * 365;
-            response.AppendHeader("Pragma", "public");
-            response.AppendHeader("Cache-Control", "maxage=" + cacheExpires);
-            response.AppendHeader("Expires", DateTime.Now.ToUniversalTime().AddSeconds(cacheExpires).ToString("r"));
-            context.Response.ContentType = "text/html";
-            context.Response.Write("<script src=\"//connect.facebook.net/en_US/all.js\"></script>");
-        }
-
-        public bool IsReusable { get { return false; } }
+        const int cacheExpires = 60 * 60 * 24 * 365;
+        response.AppendHeader("Pragma", "public");
+        response.AppendHeader("Cache-Control", "maxage=" + cacheExpires);
+        response.AppendHeader("Expires", DateTime.Now.ToUniversalTime().AddSeconds(cacheExpires).ToString("r"));
+        context.Response.ContentType = "text/html";
+        context.Response.Write("<script src=\"//connect.facebook.net/en_US/all.js\"></script>");
     }
+
+    public bool IsReusable { get { return false; } }
+}
 ```
 
 The channelUrl parameter is optional, but recommended. Providing a channel file can help address three specific known issues. First, pages that include code to communicate across frames may cause Social Plugins to show up as blank without a channelUrl. Second, if no channelUrl is provided and a page includes auto-playing audio or video, the user may hear two streams of audio because the page has been loaded a second time in the background for cross domain communication. Third, a channel file will prevent inclusion of extra hits in your server-side logs. If you do not specify a channelUrl, you can remove page views containing fb_xd_bust or fb_xd_fragment parameters from your logs to ensure proper counts.
