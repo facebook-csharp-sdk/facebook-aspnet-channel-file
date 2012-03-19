@@ -2,7 +2,7 @@
 <package xmlns='http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd'>
         <metadata>
                 <id>Facebook.channel</id>
-                <version>0.6.10.0</version>
+                <version>6.0.10.0</version>
                 <title/>
                 <authors>Jim Zimmerman, Nathan Totten, Prabir Shrestha</authors>
                 <description>This package contains the channel file for Facebook which addresses some issues with cross domain communication in certain browsers.</description>
